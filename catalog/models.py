@@ -27,13 +27,12 @@ class Product(models.Model):
         verbose_name="фото продукта",
         **NULLABLE
     )
-    category = models.ForeignKey(Category, on_delete=models.SET('удалено'))
+    category = models.ForeignKey(Category, on_delete=models.SET(0))
     price = models.IntegerField(verbose_name="цена")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
     updated_at = models.DateTimeField(
         auto_now=True, verbose_name="Дата последнего изменения"
     )
-    manufactured_at = models.CharField(max_length=100, verbose_name='произведено', default='по умолчанию')
 
     def __str__(self):
         return self.name
