@@ -3,8 +3,11 @@ from django.shortcuts import render
 from catalog.models import Product
 
 
-def index(request):
-    return render(request, "index.html")
+def product_list(request):
+    products = Product.objects.all()
+    context = {"product_list": products}
+    print(context)
+    return render(request, 'index.html', context)
 
 
 def contact_info(request):
