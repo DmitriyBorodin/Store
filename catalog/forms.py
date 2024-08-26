@@ -1,10 +1,20 @@
 from django.core.exceptions import ValidationError
-from django.forms import ModelForm
+from django.forms import ModelForm, BooleanField
 
-from catalog.models import Product
+from catalog.models import Product, Version
 
 
-class CatalogForm(ModelForm):
+class StyleMixin:
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            if isinstance(field, BooleanField):
+                field.widget.attrs['class'] = "form-check-input"
+            else:
+                field.widget.attrs['class'] = "form-control"
+
+
+class CatalogForm(StyleMixin, ModelForm):
     class Meta:
         model = Product
         fields = ('name', 'description', 'preview', 'category', 'price')
@@ -20,4 +30,10 @@ class CatalogForm(ModelForm):
                 raise ValidationError('Недопустимое название товара')
 
         return name
+
+
+class VersionForm(StyleMixin, ModelForm):
+    class Meta:
+        model = Version
+        fields = "__all__"
 
