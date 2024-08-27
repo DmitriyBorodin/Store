@@ -2,18 +2,18 @@
 
 {% block content %}
 <div class="container">
-    <div class="row">
-        <div class="col-6">
-            <div class="card">
-                <a>
-                    {% if object %}
-                    Редактирование товара
-                    {% else %}
-                    Создание товара
-                    {% endif %}
-                </a>
-                <div class="card-body">
-                    <form method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-6">
+                <div class="card">
+                    <a>
+                        {% if object %}
+                        Редактирование товара
+                        {% else %}
+                        Создание товара
+                        {% endif %}
+                    </a>
+                    <div class="card-body">
                         {% csrf_token %}
                         {{ form.as_p }}
                         <button type="submit" class="btn btn-success">
@@ -26,26 +26,24 @@
                         <a class="btn btn-primary"
                            href="{% url 'blog:list' %}"
                            role="button">Отмена</a>
-                    </form>
+                    </div>
                 </div>
             </div>
-        </div>
-        {% if object %}
-        <div class="col-6">
-            <div class="card">
-                <a>Добавление версии</a>
-                <div class="card-body">
-                    <form method="post">
+            {% if object %}
+            <div class="col-6">
+                <div class="card">
+                    <a>Добавление версии</a>
+                    <div class="card-body">
                         {% csrf_token %}
                         {{ formset.management_form }}
                         {% for form in formset.forms %}
-                            {{ form.as_p }}
+                        {{ form.as_p }}
                         {% endfor %}
-                    </form>
+                    </div>
                 </div>
             </div>
+            {% endif %}
         </div>
-        {% endif %}
-    </div>
+    </form>
 </div>
 {% endblock %}
