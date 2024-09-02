@@ -8,7 +8,7 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, UpdateView, TemplateView
 
 from catalog.forms import StyleMixin
-from users.forms import UserRegisterForm
+from users.forms import UserRegisterForm, UserProfileForm
 from users.models import User
 
 from config.settings import EMAIL_HOST_USER
@@ -71,3 +71,10 @@ class NoMailView(TemplateView):
     template_name = "users/mail_not_found.html"
 
 
+class ProfileView(UpdateView):
+    model = User
+    form_class = UserProfileForm
+    success_url = reverse_lazy('users:profile')
+
+    def get_object(self, queryset=None):
+        return self.request.user
