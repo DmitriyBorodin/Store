@@ -1,5 +1,7 @@
 from django.db import models
 
+from users.models import User
+
 NULLABLE = {"blank": True, "null": True}
 
 
@@ -42,6 +44,9 @@ class Product(models.Model):
         verbose_name_plural = "продукты"
         ordering = ["name", "price"]
 
+    owner = models.ForeignKey(User, verbose_name="Владелец",
+                              blank=True, null=True, on_delete=models.SET_NULL)
+
 
 class Version(models.Model):
 
@@ -60,6 +65,9 @@ class Version(models.Model):
 
     is_current = models.BooleanField(
         verbose_name='Признак текущей версии', default=True)
+
+    owner = models.ForeignKey(User, verbose_name="Владелец",
+                              blank=True, null=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return self.version_name

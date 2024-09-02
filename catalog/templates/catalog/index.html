@@ -190,11 +190,13 @@
                 <p class="lead text-body-secondary">Магазин персональных
                     компьютеров, их комплектующих и
                     периферии</p>
+                {% if user.is_authenticated %}
                 <p>
                     <a href="/create/" class="btn btn-primary my-2">Добавить товар</a>
                     <a href="#" class="btn btn-secondary my-2">Secondary
                         action</a>
                 </p>
+                {% endif %}
             </div>
         </div>
     </section>
