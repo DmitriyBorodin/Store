@@ -19,3 +19,13 @@ class Blog(models.Model):
                                        default=True)
     views_count = models.PositiveIntegerField(verbose_name='кол-во просмотров',
                                               default=0)
+
+    class Meta:
+        verbose_name = "блог"
+        verbose_name_plural = "блоги"
+        ordering = ["title"]
+        permissions = [
+            ("can_edit_title", "Can edit title"),
+            ("can_edit_content", "Can edit content"),
+            ("can_edit_is_published", "Can edit is_published"),
+        ]

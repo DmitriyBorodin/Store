@@ -24,16 +24,18 @@
                                    role="button">
                                     Посмотреть детали
                                 </a>
-                                <a class="btn btn-primary"
-                                   href="{% url 'blog:update' object.pk %}"
-                                   role="button">
-                                    Редактировать
-                                </a>
-                                <a class="btn btn-warning"
-                                   href="{% url 'blog:delete' object.pk %}"
-                                   role="button">
-                                    Удалить
-                                </a>
+                                {% if perms.catalog.can_edit_category and perms.catalog.can_edit_description or user == object.owner %}
+                                    <a class="btn btn-primary"
+                                       href="{% url 'blog:update' object.pk %}"
+                                       role="button">
+                                        Редактировать
+                                    </a>
+                                    <a class="btn btn-warning"
+                                       href="{% url 'blog:delete' object.pk %}"
+                                       role="button">
+                                        Удалить
+                                    </a>
+                                {% endif %}
                             </div>
                             <small class="text-body">{{ product.price }}
                                 руб.</small>
