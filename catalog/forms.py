@@ -32,6 +32,12 @@ class CatalogForm(StyleMixin, ModelForm):
         return name
 
 
+class CatalogModeratorForm(StyleMixin, ModelForm):
+    class Meta:
+        model = Product
+        fields = ('description', 'category')
+
+
 class VersionForm(StyleMixin, ModelForm):
     class Meta:
         model = Version

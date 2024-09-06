@@ -36,6 +36,8 @@ class Product(models.Model):
         auto_now=True, verbose_name="Дата последнего изменения"
     )
 
+    is_published = models.BooleanField(verbose_name="Признак публикации", default=False)
+
     def __str__(self):
         return self.name
 
@@ -43,6 +45,10 @@ class Product(models.Model):
         verbose_name = "продукт"
         verbose_name_plural = "продукты"
         ordering = ["name", "price"]
+        permissions = [
+            ("can_edit_category", "Can edit category"),
+            ("can_edit_description", "Can edit description"),
+        ]
 
     owner = models.ForeignKey(User, verbose_name="Владелец",
                               blank=True, null=True, on_delete=models.SET_NULL)

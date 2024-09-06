@@ -1,16 +1,22 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.forms import inlineformset_factory
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, TemplateView, \
     CreateView, UpdateView, DeleteView
 
-from catalog.forms import CatalogForm, VersionForm
+from catalog.forms import CatalogForm, VersionForm, CatalogModeratorForm
 from catalog.models import Product, Version
 
 
 class CatalogListView(ListView):
     model = Product
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.filter(is_published=True)
+        return queryset
 
     # app_name/<model_name>_<action>
     # catalog/blog_list.html
@@ -60,6 +66,15 @@ class CatalogUpdateView(LoginRequiredMixin, UpdateView):
         else:
             return self.render_to_response(self.get_context_data(form=form, formset=formset))
 
+    def get_form_class(self):
+        user = self.request.user
+        if user == self.object.owner:
+            return CatalogForm
+        if user.has_perm('catalog.can_edit_category') and user.has_perm('catalog.can_edit_description'):
+            return CatalogModeratorForm
+        raise PermissionDenied
+
+
     # def get_success_url(self):
     #     return reverse("catalog:product_list", args=[self.kwargs.get('pk')])
 
@@ -67,6 +82,12 @@ class CatalogUpdateView(LoginRequiredMixin, UpdateView):
 class CatalogDeleteView(LoginRequiredMixin, DeleteView):
     model = Product
     success_url = reverse_lazy('catalog:product_list')
+
+    def get_form_class(self):
+        user = self.request.user
+        if user == self.object.owner:
+            return DeleteView
+        raise PermissionDenied
 
 
 class ContactsView(TemplateView):
