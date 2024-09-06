@@ -24,7 +24,7 @@
                                    role="button">
                                     Посмотреть детали
                                 </a>
-                                {% if perms.catalog.can_edit_category and perms.catalog.can_edit_description or user == object.owner %}
+                                {% if perms.blog.can_edit_title and perms.blog.can_edit_content or user == object.owner %}
                                     <a class="btn btn-primary"
                                        href="{% url 'blog:update' object.pk %}"
                                        role="button">
