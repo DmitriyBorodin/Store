@@ -48,6 +48,7 @@ class Product(models.Model):
         permissions = [
             ("can_edit_category", "Can edit category"),
             ("can_edit_description", "Can edit description"),
+            ("can_edit_is_published", "Can edit is_published"),
         ]
 
     owner = models.ForeignKey(User, verbose_name="Владелец",

@@ -16,7 +16,7 @@
                                     <a class="btn btn-primary" href="{% url 'products:product_detail' product.pk %}" role="button">
                                         Перейти на страницу товара
                                     </a>
-                                    {% if perms.catalog.can_edit_category and perms.catalog.can_edit_description or user == dog.owner %}
+                                    {% if perms.catalog.can_edit_category and perms.catalog.can_edit_description or user == product.owner %}
                                     <a class="btn btn-warning" href="{% url 'products:product_update' product.pk %}" role="button">
                                         Редактировать
                                     </a>
