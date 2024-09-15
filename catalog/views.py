@@ -8,15 +8,19 @@ from django.views.generic import ListView, DetailView, TemplateView, \
 
 from catalog.forms import CatalogForm, VersionForm, CatalogModeratorForm
 from catalog.models import Product, Version
+from catalog.services import get_products_from_cache
 
 
 class CatalogListView(ListView):
     model = Product
 
+    # def get_queryset(self):
+    #     queryset = super().get_queryset()
+    #     queryset = queryset.filter(is_published=True)
+    #     return queryset
+
     def get_queryset(self):
-        queryset = super().get_queryset()
-        queryset = queryset.filter(is_published=True)
-        return queryset
+        return get_products_from_cache()
 
     # app_name/<model_name>_<action>
     # catalog/blog_list.html
